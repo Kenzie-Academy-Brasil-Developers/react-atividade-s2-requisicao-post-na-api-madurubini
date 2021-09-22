@@ -1,0 +1,43 @@
+form {
+  border: 1px solid black;
+  border-radius: 10px;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 200px;
+  width: 70%;
+  margin: 100px 0;
+  background-image: url("https://p4.wallpaperbetter.com/wallpaper/669/755/802/artistic-graffiti-black-and-white-hipster-wallpaper-preview.jpg");
+}
+
+form h3 {
+  background-color: white;
+}
+input {
+  height: 20px;
+  border-radius: 10px;
+  border: 1px solid black;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid black;
+  width: 60px;
+  background-color: white;
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  filter: brightness(0.9);
+}
+
+.Erro {
+  color: red;
+  background-color: white;
+  padding: 5px;
+  border-radius: 8px;
+}

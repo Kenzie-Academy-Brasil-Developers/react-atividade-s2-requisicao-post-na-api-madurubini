@@ -1,10 +1,17 @@
 import "./App.css";
+import Display from "./components/Display";
 import Login from "./components/Login";
+import { useState } from "react";
 
 function App() {
+  const [isAuth, setIsAuth] = useState(false);
+
   return (
     <div className="App">
-      <Login></Login>
+      <div className="Container">
+        <Login setIsAuth={setIsAuth}></Login>
+        <Display isAuth={isAuth}></Display>
+      </div>
     </div>
   );
 }

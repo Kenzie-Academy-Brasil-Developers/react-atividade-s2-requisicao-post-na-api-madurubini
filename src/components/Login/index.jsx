@@ -1,44 +1,53 @@
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
+import axios from "axios";
+import "./style.css";
 
-const Login = () => {
-  const [dataForm, setDataForm] = useState("");
+const Login = ({ setIsAuth }) => {
   const formSchema = yup.object().shape({
     username: yup.string().required("Usuário Obrigatório"),
-    password: yup
-      .string()
-      .min(8, "Sua senha precisa ter no mínimo 8 caracteres")
-      .required("Informe sua senha"),
+    password: yup.string().required("Informe sua senha"),
   });
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm({ resolver: yupResolver(formSchema) });
 
-  function sendData(data) {
-    setDataForm(data);
-    console.log(data);
+  function sendData(FormData) {
+    console.log(FormData);
+    axios
+      .post("https://kenzieshop.herokuapp.com/sessions/", FormData)
+      .then((response) => {
+        console.log(response);
+        window.localStorage.clear();
+        window.localStorage.setItem("authToken", response.data.access);
+        setIsAuth(true);
+      })
+
+      .catch((err) => {
+        setIsAuth(false);
+        setError("password", {
+          message: "Sem autorização",
+        });
+      });
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(sendData)}>
-        <h3>Formulário de requisição</h3>
-        <input placeholder="username" {...register("username")}></input>
-        {errors.username?.message}
-        <input
-          placeholder="password"
-          type="password"
-          {...register("password")}
-        ></input>
-        {errors.password?.message}
-
-        <button type="submit">Login</button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit(sendData)}>
+      <h3>Formulário de requisição</h3>
+      <input placeholder="username" {...register("username")}></input>
+      <p className="Erro">{errors.username?.message}</p>
+      <input
+        placeholder="password"
+        type="password"
+        {...register("password")}
+      ></input>
+      <p className="Erro"> {errors.password?.message}</p>
+      <button type="submit">Login</button>
+    </form>
   );
 };
 
